@@ -49,10 +49,10 @@ export interface AssetEntry {
 }
 export const ASSET_SYMBOL_PATH: ReadonlyArray<AssetEntry> =
 [
-    {alias : "hav1", symbol:"assets/hv1_symbol.png"},
-    {alias : "hav2", symbol:"assets/hv2_symbol.png"},
-    {alias : "hav3", symbol:"assets/hv3_symbol.png"},
-    {alias : "hav4", symbol:"assets/hv4_symbol.png"},
+    {alias : "hv1", symbol:"assets/hv1_symbol.png"},
+    {alias : "hv2", symbol:"assets/hv2_symbol.png"},
+    {alias : "hv3", symbol:"assets/hv3_symbol.png"},
+    {alias : "hv4", symbol:"assets/hv4_symbol.png"},
     {alias : "lv1", symbol:"assets/lv1_symbol.png"},
     {alias : "lv2", symbol:"assets/lv2_symbol.png"},
     {alias : "lv3", symbol:"assets/lv3_symbol.png"},
@@ -62,3 +62,5 @@ export const ASSET_SYMBOL_PATH: ReadonlyArray<AssetEntry> =
 
 export const NUM_ROWS = 3 as const;
 export const NUM_REELS = 5 as const;
+
+export const SYMBOL_SIZE = 100 as const;
