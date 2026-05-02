@@ -49,15 +49,15 @@ export interface AssetEntry {
 }
 export const ASSET_SYMBOL_PATH: ReadonlyArray<AssetEntry> =
 [
-    {alias : "hav1", symbol:"../assets/hv1_symbol.png"},
-    {alias : "hav2", symbol:"../assets/hv2_symbol.png"},
-    {alias : "hav3", symbol:"../assets/hv3_symbol.png"},
-    {alias : "hav4", symbol:"../assets/hv4_symbol.png"},
-    {alias : "lv1", symbol:"../assets/lv1_symbol.png"},
-    {alias : "lv2", symbol:"../assets/lv2_symbol.png"},
-    {alias : "lv3", symbol:"../assets/lv3_symbol.png"},
-    {alias : "lv4", symbol:"../assets/lv4_symbol.png"},
-    {alias : "spin_button", symbol:"../assets/spin_button.png"},
+    {alias : "hav1", symbol:"assets/hv1_symbol.png"},
+    {alias : "hav2", symbol:"assets/hv2_symbol.png"},
+    {alias : "hav3", symbol:"assets/hv3_symbol.png"},
+    {alias : "hav4", symbol:"assets/hv4_symbol.png"},
+    {alias : "lv1", symbol:"assets/lv1_symbol.png"},
+    {alias : "lv2", symbol:"assets/lv2_symbol.png"},
+    {alias : "lv3", symbol:"assets/lv3_symbol.png"},
+    {alias : "lv4", symbol:"assets/lv4_symbol.png"},
+    {alias : "spin_button", symbol:"assets/spin_button.png"},
 ];
 
 export const NUM_ROWS = 3 as const;
