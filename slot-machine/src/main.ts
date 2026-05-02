@@ -1,7 +1,16 @@
 import './style.css'
-import { randomPositions, resolveScreen } from './reels'
-import { evaluateWins, formatWinsText } from './winResolution';
+import { Application } from "pixi.js";
+import { runPreloader } from "./preloader.js";
 
-    for(let i = 0; i<1000;i++){
-        console.log(formatWinsText(evaluateWins(resolveScreen(randomPositions()))));  
-    }
+const app = new Application();
+ 
+await app.init({
+  resizeTo: window,
+  antialias: true,
+  resolution: window.devicePixelRatio || 1,
+  autoDensity: true,
+});
+ 
+document.body.appendChild(app.canvas);
+ 
+await runPreloader(app);
