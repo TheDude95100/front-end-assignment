@@ -7,7 +7,7 @@ import { evaluateWins,formatWinsText } from "./winResolution.js";
 
 const PADDING = 24;
 const BTN_MARGIN_TOP = 24;
-const WIN_PANEL_MARGIN_TOP = 20;
+const WIN_PANEL_MARGIN_TOP = 16;
 export class GameScene extends Container {
     readonly #app: Application;
     readonly #reelGrid: ReelGrid;
