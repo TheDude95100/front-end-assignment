@@ -45,7 +45,7 @@ export function formatWinsText(wins:WinResult[]):string{
 
     const lines = [`Total wins: ${total}`];
     for (const win of wins){
-        lines.push(`- payline ${win.paylineId}, ${win.symbolId}, ${win.symbolId} x${win.count}, ${win.payout}`);
+        lines.push(`- payline ${win.paylineId}, ${win.symbolId} x${win.count}, ${win.payout}`);
     }
     return lines.join("\n");
 }
