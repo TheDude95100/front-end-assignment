@@ -2,13 +2,17 @@ import { Application, Container } from "pixi.js";
 import { resolveScreen, randomPositions} from "./reels.js";
 import { ReelGrid }   from "./reelGrid.js";
 import { SpinButton } from "./spinButton.js";
+import { WinPanel } from "./winPanel.js";
+import { evaluateWins,formatWinsText } from "./winResolution.js";
 
 const PADDING = 24;
 const BTN_MARGIN_TOP = 24;
+const WIN_PANEL_MARGIN_TOP = 20;
 export class GameScene extends Container {
     readonly #app: Application;
     readonly #reelGrid: ReelGrid;
     readonly #spinButton: SpinButton;
+    readonly #winPanel: WinPanel;
 
     #positions: number[] = [0,0,0,0,0];
 
@@ -20,6 +24,7 @@ export class GameScene extends Container {
 
         this.#reelGrid = new ReelGrid();
         this.#spinButton = new SpinButton();
+        this.#winPanel = new WinPanel();
 
         this.#buildChildren();
         this.#showInitialState();
@@ -34,10 +39,13 @@ export class GameScene extends Container {
 
         this.#spinButton.on("spin", () => this.#onSpin());
         this.addChild(this.#spinButton);
+
+        this.addChild(this.#winPanel);
     }
     
     #showInitialState(): void {
         this.#reelGrid.setScreen(resolveScreen(this.#positions));
+        this.#winPanel.setText("SPIN TO WIN ('til you die 'Til the light dies in your eyes)")
     }
     override destroy(...args: Parameters<typeof Container.prototype.destroy>): void {
         this.#app.renderer.off("resize", this.#onResize);
@@ -67,6 +75,9 @@ export class GameScene extends Container {
 
         this.#spinButton.x = gridW / 2;
         this.#spinButton.y = gridH + BTN_MARGIN_TOP + btnSize / 2;
+
+        this.#winPanel.x = gridW / 2;
+        this.#winPanel.y = this.#spinButton.y + btnSize / 2 + WIN_PANEL_MARGIN_TOP;
     }
     #onSpin(): void {
         this.#spinButton.setEnabled(false);
@@ -75,6 +86,7 @@ export class GameScene extends Container {
         const screen        = resolveScreen(this.#positions);
     
         this.#reelGrid.setScreen(screen);
+        this.#winPanel.setText(formatWinsText(evaluateWins(screen)));
     
         this.#layout();
         this.#spinButton.setEnabled(true);
