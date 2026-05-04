@@ -1,10 +1,14 @@
 import { Application, Container } from "pixi.js";
-import { resolveScreen} from "./reels.js";
+import { resolveScreen, randomPositions} from "./reels.js";
 import { ReelGrid }   from "./reelGrid.js";
+import { SpinButton } from "./spinButton.js";
 
+const PADDING = 24;
+const BTN_MARGIN_TOP = 24;
 export class GameScene extends Container {
     readonly #app: Application;
     readonly #reelGrid: ReelGrid;
+    readonly #spinButton: SpinButton;
 
     #positions: number[] = [0,0,0,0,0];
 
@@ -15,6 +19,7 @@ export class GameScene extends Container {
         this.#app = app;
 
         this.#reelGrid = new ReelGrid();
+        this.#spinButton = new SpinButton();
 
         this.#buildChildren();
         this.#showInitialState();
@@ -26,10 +31,17 @@ export class GameScene extends Container {
 
     #buildChildren(): void {
         this.addChild(this.#reelGrid);
+
+        this.#spinButton.on("spin", () => this.#onSpin());
+        this.addChild(this.#spinButton);
     }
     
     #showInitialState(): void {
         this.#reelGrid.setScreen(resolveScreen(this.#positions));
+    }
+    override destroy(...args: Parameters<typeof Container.prototype.destroy>): void {
+        this.#app.renderer.off("resize", this.#onResize);
+        super.destroy(...args);
     }
 
     #layout(): void {
@@ -37,11 +49,12 @@ export class GameScene extends Container {
         const viewH   = this.#app.screen.height;
         const gridW   = this.#reelGrid.naturalWidth;
         const gridH   = this.#reelGrid.naturalHeight;
+        const btnSize = this.#spinButton.size;
     
-        const naturalH = gridH + 24;
+        const naturalH = gridH + PADDING + BTN_MARGIN_TOP + btnSize + 80;
     
-        const scaleX = (viewW - 20 * 2) / gridW;
-        const scaleY = (viewH - 20 * 2) / naturalH;
+        const scaleX = (viewW - PADDING * 2) / gridW;
+        const scaleY = (viewH - PADDING * 2) / naturalH;
         const scale  = Math.min(scaleX, scaleY, 1.0);
     
         this.scale.set(scale);
@@ -51,5 +64,19 @@ export class GameScene extends Container {
     
         this.#reelGrid.x = 0;
         this.#reelGrid.y = 0;
-  }
+
+        this.#spinButton.x = gridW / 2;
+        this.#spinButton.y = gridH + BTN_MARGIN_TOP + btnSize / 2;
+    }
+    #onSpin(): void {
+        this.#spinButton.setEnabled(false);
+    
+        this.#positions     = randomPositions();
+        const screen        = resolveScreen(this.#positions);
+    
+        this.#reelGrid.setScreen(screen);
+    
+        this.#layout();
+        this.#spinButton.setEnabled(true);
+    }
 }
